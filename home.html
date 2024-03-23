@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="UTF-8">
+    <title>Hospital heart Disease Prediction</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<style>
+    body {
+        background-image: url("{{ url_for('static', filename='images/doctor1.jpg') }}");
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 220svh;
+        background: linear-gradient(to right, #3498db, #2980b9); /* Hospital colors */
+    }
+
+    form {
+        margin: 0 auto;
+        width: 40%;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        background-color: #ecf0f1;
+        box-sizing: border-box;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    label,
+    input,
+    select {
+        width: 100%; /* Set the width to 100% for full width */
+        box-sizing: border-box;
+        margin-bottom: 15px;
+        padding: 10px;
+        border: 1px solid #aaa;
+        border-radius: 16px;
+        transition: border-color 0.3s ease-in-out;
+    }
+
+    input:focus,
+    select:focus {
+        border-color: #4CAF50;
+    }
+
+    button {
+        width: 40%;
+        background-color: #27ae60; /* Green button color */
+        color: white;
+        padding: 14px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 18px;
+        transition: background-color 0.3s ease-in-out;
+    }
+
+    button:hover {
+        background-color: #45A049;
+    }
+
+    @media (max-width: 768px) {
+        label,
+        input,
+        select {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+    }
+    h1 {
+        text-align: center;
+        color: #008000; /* Green color for emphasis */
+        margin-bottom: 20px;
+    }
+    
+</style>
+
+<body>
+
+    <form method="post" action="/predict" onsubmit="return validateForm()">
+        <h1>Enter the following details for the patient</h1>
+
+        <!-- Include patient name in the form -->
+        <label for="name">Patient Name:</label>
+        <input type="text" name="name" id="name" placeholder="Enter patient's name" required>
+
+        <!-- Rest of the form fields -->
+
+        <label for="age">Age:</label>
+        <input type="number" name="age" id="age" required>
+
+        <label for="sex">Sex:</label>
+        <select name="sex" id="sex" required>
+            <option value="0">0</option>
+            <option value="1">1</option>
+        </select>
+
+        <label for="cp"> Types of Chest Pain Type:</label>
+        <select name="cp" id="cp" required>
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+        </select>
+        <label for="trestbps">Resting Blood Pressure:</label>
+        <input type="number" name="trestbps" id="trestbps" required>
+
+        <label for="chol">Serum Cholesterol:</label>
+        <input type="number" name="chol" id="chol" required>
+
+        <label for="fbs">Fasting Blood Sugar:</label>
+        
+             <select name="fbs" id="fbs" required>
+            <option value="0">0</option>
+            <option value="1">1</option>
+           
+        </select>
+        <label for="restecg">Maximum Heart Rate Achieved:</label>
+        <input type="number" name="restecg" id="restecg" required>
+
+
+        <label for="thalach">Thalach:</label>
+        <input type="number" name="thalach" id="thalach" required>
+
+        <label for="exang">Exercise Induced Angina:</label>
+        <select name="exang" id="exang" required>
+            <option value="0">0</option>
+            <option value="1">1</option>
+        </select>
+
+        <label for="oldpeak">Oldpeak:</label>
+        <input type="float" name="oldpeak" id="oldpeak" required>
+
+        <label for="slope">Slope of the Peak Exercise ST Segment:</label>
+        <input type="number" name="slope" id="slope" required>
+
+        <label for="ca">Number of Major Vessels (0-3) Colored by Fluoroscopy:</label>
+        <select name="ca" id="ca" required>
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+        </select>
+
+        <label for="thal">Thalassemia:</label>
+        <input type="number" name="thal" id="thal" required>
+
+
+        <button type="submit">Predict</button>
+            <!-- Input for Patient Name -->
+<input type="text" id="Cardiologist_Name" placeholder="Cardiologist Name">
+<h1>Hello, {{ session['cardiologist._name'] }}!</h1>
+<!-- Input for Patient Name -->
+<input type="text" id="cardiologist._name" placeholder="cardiologist._name">
+
+    </form>
+
+
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    {% if prediction %}
+        <p><strong>Prediction:</strong> {{ prediction }}<strong></strong></p>
+    {% endif %}
+
+    <script>
+        function validateForm() {
+            var elements = document.forms[0].elements;
+            for (var i = 0; i < elements.length; i++) {
+                if (elements[i].value === '' && elements[i].hasAttribute('required')) {
+                    alert("Please fill in all required fields.");
+                    return false;
+                }
+            }
+            return true;
+        }
+    </script>
+</body>
+</html>
